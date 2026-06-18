@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#eef2f7" />
+  <rect x="60" y="60" width="1080" height="600" rx="28" fill="#dfe7f1" />
+  <circle cx="245" cy="250" r="68" fill="#9bb1cc" />
+  <circle cx="420" cy="240" r="68" fill="#adc0d8" />
+  <circle cx="595" cy="255" r="68" fill="#9db9d5" />
+  <circle cx="775" cy="245" r="68" fill="#a8bdd7" />
+  <circle cx="950" cy="250" r="68" fill="#90abc8" />
+  <rect x="165" y="345" width="860" height="170" rx="26" fill="#c5d2e2" />
+  <text x="600" y="610" text-anchor="middle" font-size="44" font-family="Arial, sans-serif" fill="#506175">
+    课题组毕业合影
+  </text>
+</svg>

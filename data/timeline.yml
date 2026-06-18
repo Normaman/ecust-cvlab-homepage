@@ -1,0 +1,27 @@
+- year: 2018
+  title: 课题组建设稳步推进
+  description: 围绕计算机视觉与人工智能方向持续凝练研究主题，逐步形成图像处理、检测识别与三维感知协同发展的研究格局。
+  image: /images/timeline/graduation-group.svg
+  alt: 课题组毕业合影
+  caption: 图片说明：课题组毕业合影
+
+- year: 2021
+  title: 图像复原研究取得代表性成果
+  description: 团队在运动去模糊与复杂退化图像恢复方向持续发力，相关成果发表于 IEEE TIP，进一步提升了课题组在视觉恢复领域的影响力。
+  image: /images/timeline/lab-daily.svg
+  alt: 实验室日常
+  caption: 图片说明：实验室日常
+
+- year: 2023
+  title: 顶级期刊论文持续产出
+  description: FSAD-Net 与 MNGNAS 等成果分别发表于 IEEE TNNLS、IEEE TPAMI，团队在去雾增强与神经架构搜索方向形成鲜明特色。
+  image: /images/timeline/campus-view.svg
+  alt: 校园风光
+  caption: 图片说明：校园风光
+
+- year: 2025
+  title: AIGC 与数据蒸馏方向实现突破
+  description: 团队在 Dataset Distillation 与 AI 生成图像检测方向取得新进展，成果发表于 Neural Networks 与 NeurIPS Spotlight，持续拓展研究边界。
+  image: /images/timeline/research-activity.svg
+  alt: 科研与团队活动
+  caption: 图片说明：科研与团队活动

@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #202122;
+  background: #ffffff;
+}
+
+.wiki-link {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+.wiki-link:hover {
+  text-decoration: underline;
+}
+
+.section-title {
+  border-bottom: 1px solid #a2a9b1;
+  padding-bottom: 0.45rem;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.wiki-card {
+  border: 1px solid #a2a9b1;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(32, 33, 34, 0.08);
+}
+
+.timeline-line {
+  position: absolute;
+  top: 0;
+  left: 0.75rem;
+  height: 100%;
+  width: 1px;
+  background: #cbd5e1;
+}
+
+.timeline-item {
+  position: relative;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  top: 1.25rem;
+  left: -1.72rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 3px solid #0645ad;
+  z-index: 10;
+  box-shadow: 0 0 0 6px rgba(6, 69, 173, 0.08);
+}
+
+@media (min-width: 768px) {
+  .timeline-line {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .timeline-item.left::before {
+    left: auto;
+    right: -0.5rem;
+  }
+
+  .timeline-item.right::before {
+    left: -0.5rem;
+  }
+}

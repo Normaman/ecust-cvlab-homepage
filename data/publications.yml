@@ -1,0 +1,41 @@
+- title: "FSAD-Net: Feedback spatial attention dehazing network"
+  venue: IEEE TNNLS
+  year: 2023
+  links:
+    - label: Paper
+      url: "#"
+    - label: Code
+      url: "#"
+
+- title: Structure-aware motion deblurring using multi-adversarial optimized cyclegan
+  venue: IEEE TIP
+  year: 2021
+  links:
+    - label: Paper
+      url: "#"
+
+- title: "MNGNAS: Distilling Adaptive Combination of Multiple Searched Networks for One-Shot Neural Architecture Search"
+  venue: IEEE TPAMI
+  year: 2023
+  links:
+    - label: Paper
+      url: "#"
+    - label: Code
+      url: "#"
+
+- title: Gradient Amplification for Gradient Matching Based Dataset Distillation
+  venue: Neural Networks
+  year: 2025
+  links:
+    - label: Paper
+      url: "#"
+
+- title: Dual Data Alignment Makes AI-Generated Image Detector Easier Generalizable
+  venue: NeurIPS
+  year: 2025
+  note: Spotlight
+  links:
+    - label: Paper
+      url: "#"
+    - label: Project
+      url: "#"
