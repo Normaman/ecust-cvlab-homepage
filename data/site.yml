@@ -4,9 +4,31 @@ labShortName: ECUST CVAI Lab
 about:
   - 项目团队在计算机视觉、人工智能、图像视频处理、计算机图形学等领域深耕，在 IEEE TPAMI, TIP, TNNLS, TCYB, TCSVT, TGRS 等顶级和权威国内外期刊会议上发表论文 120 余篇；主持军工项目以及企业合作等各类项目 10 余项（其中国家级项目 8 项），获得省部级二等奖。
   - 课题组聚焦基础研究与实际应用协同推进，面向图像复原、目标检测、多模态智能、AIGC 安全与三维视觉等关键方向持续开展研究。
+stats:
+  - value: 120+
+    label: 高水平论文
+    detail: 覆盖 TPAMI、TIP、TNNLS、TCYB、TCSVT、TGRS 等期刊会议
+  - value: 10+
+    label: 科研项目
+    detail: 含军工项目、企业合作项目及国家级项目 8 项
+  - value: 1
+    label: 省部级奖项
+    detail: 获省部级二等奖，持续推进科研成果转化与应用
 infobox:
   institution: 华东理工大学
   domains: 计算机视觉 / 人工智能 / 图像视频处理 / 图形学
   papers: 120 余篇
   projects: 10 余项，国家级项目 8 项
   honors: 省部级二等奖
+  email: cvai-lab@ecust.edu.cn
+  address: 上海市梅陇路 130 号 华东理工大学信息学院
+  office: 逸夫楼视觉智能实验室
+joinUs:
+  title: 招生与招聘
+  intro: 课题组长期欢迎对计算机视觉、AIGC 安全、多模态学习、三维视觉与高效智能计算感兴趣的本科生、硕士、博士及博士后加入。
+  bullets:
+    - 欢迎具有扎实数学基础、编程能力和科研兴趣的同学联系交流。
+    - 支持学术研究、工程实践与高水平论文发表协同发展。
+    - 鼓励与国内外高校、科研机构及企业联合培养和合作研究。
+  email: cvai-lab@ecust.edu.cn
+  address: 上海市梅陇路 130 号 华东理工大学信息学院 逸夫楼
