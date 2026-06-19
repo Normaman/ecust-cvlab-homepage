@@ -125,10 +125,22 @@ export type CommunityContent = {
   alumni: CommunityMember[];
 };
 
+type CollectionFile<T> = T[] | { items?: T[]; members?: T[] };
+
 function readYamlFile<T>(fileName: string): T {
   const filePath = path.join(process.cwd(), "data", fileName);
   const raw = fs.readFileSync(filePath, "utf8");
   return YAML.parse(raw) as T;
+}
+
+function readCollectionFile<T>(fileName: string, key: "items" | "members") {
+  const content = readYamlFile<CollectionFile<T>>(fileName);
+
+  if (Array.isArray(content)) {
+    return content;
+  }
+
+  return content[key] ?? [];
 }
 
 function getImageFilePath(publicPath: string) {
@@ -256,7 +268,7 @@ export function getSiteContent() {
 }
 
 export function getTeamMembers() {
-  const members = readYamlFile<TeamMember[]>("team.yml");
+  const members = readCollectionFile<TeamMember>("team.yml", "members");
 
   return members.map((member) => ({
     ...member,
@@ -265,11 +277,11 @@ export function getTeamMembers() {
 }
 
 export function getResearchItems() {
-  return readYamlFile<ResearchItem[]>("research.yml");
+  return readCollectionFile<ResearchItem>("research.yml", "items");
 }
 
 export function getPublications() {
-  const items = readYamlFile<Publication[]>("publications.yml");
+  const items = readCollectionFile<Publication>("publications.yml", "items");
   return items
     .map((item) => ({
       ...item,
@@ -279,7 +291,7 @@ export function getPublications() {
 }
 
 export function getTimelineItems() {
-  const items = readYamlFile<GalleryItemSource[]>("timeline.yml");
+  const items = readCollectionFile<GalleryItemSource>("timeline.yml", "items");
 
   return items.map((item) => {
     const dimensions =
@@ -297,7 +309,7 @@ export function getTimelineItems() {
 }
 
 export function getNewsItems() {
-  const items = readYamlFile<NewsItemSource[]>("news.yml");
+  const items = readCollectionFile<NewsItemSource>("news.yml", "items");
 
   return items.map((item) => {
     const dimensions =
@@ -315,7 +327,7 @@ export function getNewsItems() {
 }
 
 export function getProjectItems() {
-  return readYamlFile<ProjectItem[]>("projects.yml");
+  return readCollectionFile<ProjectItem>("projects.yml", "items");
 }
 
 export function getCommunityContent() {

@@ -26,6 +26,33 @@
 
 ## 内容维护方式
 
+### 通过 CMS 后台维护
+
+项目已接入 Decap CMS，后台地址为：
+
+```text
+/admin/
+```
+
+GitHub Pages 部署后的完整地址为：
+
+```text
+https://<你的 GitHub 用户名>.github.io/<你的仓库名>/admin/
+```
+
+后台支持通过表单界面维护这些内容：
+
+- 首页信息与招生信息
+- 最新动态
+- 指导教师
+- 研究方向
+- 代表性成果
+- 科研项目
+- 团队成员
+- 团队氛围相册
+
+上传的图片会写入 `public/images/` 下对应目录，保存后会自动更新 `data/*.yml`。
+
 ### 修改论文
 
 编辑 `data/publications.yml`，每篇论文为一个条目，例如：
@@ -74,6 +101,18 @@ npm run dev
 http://localhost:3000
 ```
 
+本地调试 CMS：
+
+```bash
+npx decap-server
+```
+
+然后访问：
+
+```text
+http://localhost:3000/admin/
+```
+
 ## GitHub Pages 部署
 
 1. 将项目推送到 GitHub 仓库的 `main` 或 `master` 分支。
@@ -87,6 +126,49 @@ http://localhost:3000
 ```text
 https://<你的 GitHub 用户名>.github.io/<你的仓库名>/
 ```
+
+## 启用 Decap CMS 登录
+
+### 已完成的部分
+
+项目中已经包含：
+
+- `public/admin/index.html`
+- `public/admin/config.yml`
+- `/admin/` 正式后台入口
+
+### 还需要你配置的部分
+
+由于站点部署在 `GitHub Pages`，Decap CMS 使用 GitHub 账号登录时，还需要一个单独的 OAuth 授权端点。也就是说：
+
+- `GitHub Pages` 负责托管前台网站和 `/admin/` 页面
+- OAuth 代理负责完成 GitHub 登录握手
+- 登录成功后，Decap CMS 才能代表你修改仓库中的 `YAML` 和图片文件
+
+推荐做法：
+
+1. 单独部署一个 Decap OAuth 代理服务
+2. 在 GitHub `Developer settings -> OAuth Apps` 中创建一个 OAuth App
+3. 将 OAuth App 的回调地址指向你的代理服务
+4. 把 `public/admin/config.yml` 里的 `backend.base_url` 改成你的 OAuth 服务地址
+
+也可以直接执行：
+
+```bash
+node scripts/set-decap-oauth-url.mjs https://your-worker.workers.dev
+```
+
+建议优先使用这些托管方式之一部署 OAuth 代理：
+
+- `Cloudflare Workers / Pages Functions`
+- `Vercel Serverless Functions`
+- `Netlify Functions`
+
+### 当前后台配置位置
+
+- 后台入口：`public/admin/index.html`
+- CMS 配置：`public/admin/config.yml`
+- Cloudflare Worker 代理：`cloudflare/decap-oauth-proxy/`
 
 ## 说明
 

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>内容管理后台</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 28%),
+          linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+        color: #0f172a;
+      }
+
+      .cms-loading {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        padding: 24px;
+      }
+
+      .cms-card {
+        width: min(680px, 100%);
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+        padding: 28px;
+      }
+
+      .cms-tag {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 6px 10px;
+      }
+
+      h1 {
+        margin: 14px 0 8px;
+        font-size: 28px;
+        line-height: 1.2;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.75;
+        color: #475569;
+      }
+
+      .cms-note {
+        margin-top: 18px;
+        border-radius: 18px;
+        background: #f8fafc;
+        padding: 16px 18px;
+        font-size: 14px;
+      }
+
+      .cms-note strong {
+        color: #0f172a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cms-loading">
+      <div class="cms-card">
+        <div class="cms-tag">Decap CMS</div>
+        <h1>课题组内容管理后台</h1>
+        <p>正在加载后台界面。登录后可以直接上传图片、编辑最新动态、修改代表性成果与团队信息，无需手动改 Git 仓库。</p>
+        <div class="cms-note">
+          <strong>首次启用提示：</strong>
+          GitHub Pages 场景下，Decap CMS 还需要一个 GitHub OAuth 授权端点。后台页面和内容模型已接入，完成 OAuth 配置后即可正式使用。
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+  </body>
+</html>

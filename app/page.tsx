@@ -393,7 +393,12 @@ export default function HomePage() {
       <footer className="mt-12 border-t border-wikiAccent bg-wikiSoft">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 text-sm text-slate-600 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <p>{site.title} 团队主页</p>
-          <p>聚焦计算机视觉、人工智能、AIGC 安全与三维视觉研究</p>
+          <div className="flex flex-wrap items-center gap-4">
+            <p>聚焦计算机视觉、人工智能、AIGC 安全与三维视觉研究</p>
+            <a href="admin/" className="wiki-link font-semibold">
+              内容管理后台
+            </a>
+          </div>
         </div>
       </footer>
     </>

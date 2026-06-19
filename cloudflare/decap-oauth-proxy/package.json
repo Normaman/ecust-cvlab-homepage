@@ -1,0 +1,12 @@
+{
+  "name": "decap-oauth-proxy",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.59.1"
+  }
+}

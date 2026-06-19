@@ -1,0 +1,238 @@
+backend:
+  name: github
+  repo: Normaman/ecust-cvlab-homepage
+  branch: main
+  site_domain: normaman.github.io
+  # 部署 cloudflare/decap-oauth-proxy 后，把这里改成你的 Worker 地址
+  base_url: https://ecust-cvlab-decap-oauth.ecust-cvlab-oauth.workers.dev
+  auth_endpoint: auth
+  use_graphql: true
+
+local_backend: true
+site_url: https://normaman.github.io/ecust-cvlab-homepage/
+display_url: https://normaman.github.io/ecust-cvlab-homepage/
+media_folder: public/images/uploads
+public_folder: /images/uploads
+editor:
+  preview: false
+
+collections:
+  - name: site
+    label: 站点设置
+    delete: false
+    editor:
+      preview: false
+    files:
+      - label: 首页信息
+        name: site
+        file: data/site.yml
+        fields:
+          - { label: 主标题, name: title, widget: string }
+          - { label: 副标题, name: subtitle, widget: string }
+          - { label: 课题组简称, name: labShortName, widget: string }
+          - label: 关于我们
+            name: about
+            widget: list
+            summary: "{{fields.text}}"
+            field: { label: 段落, name: text, widget: text }
+          - label: 亮点数据
+            name: stats
+            widget: list
+            summary: "{{fields.label}} · {{fields.value}}"
+            fields:
+              - { label: 数值, name: value, widget: string }
+              - { label: 标题, name: label, widget: string }
+              - { label: 说明, name: detail, widget: text }
+          - label: 信息卡
+            name: infobox
+            widget: object
+            fields:
+              - { label: 学校, name: institution, widget: string }
+              - { label: 研究领域, name: domains, widget: string }
+              - { label: 论文数量, name: papers, widget: string }
+              - { label: 项目数量, name: projects, widget: string }
+              - { label: 荣誉, name: honors, widget: string }
+              - { label: 邮箱, name: email, widget: string }
+              - { label: 地址, name: address, widget: string }
+              - { label: 办公地点, name: office, widget: string }
+          - label: 招生与招聘
+            name: joinUs
+            widget: object
+            fields:
+              - { label: 标题, name: title, widget: string }
+              - { label: 介绍, name: intro, widget: text }
+              - label: 要点
+                name: bullets
+                widget: list
+                field: { label: 条目, name: text, widget: string }
+              - { label: 联系邮箱, name: email, widget: string }
+              - { label: 联系地址, name: address, widget: string }
+
+  - name: news
+    label: 最新动态
+    delete: false
+    media_folder: public/images/news
+    public_folder: /images/news
+    files:
+      - label: 新闻轮播
+        name: news
+        file: data/news.yml
+        fields:
+          - label: 动态列表
+            name: items
+            widget: list
+            summary: "{{fields.date}} · {{fields.title}}"
+            fields:
+              - { label: 日期, name: date, widget: string, hint: "例如 2025-12" }
+              - { label: 标题, name: title, widget: string }
+              - { label: 描述, name: description, widget: text }
+              - { label: 图片, name: image, widget: image, required: false }
+              - { label: 宽度, name: width, widget: number, required: false, value_type: int, min: 1 }
+              - { label: 高度, name: height, widget: number, required: false, value_type: int, min: 1 }
+
+  - name: team
+    label: 指导教师
+    delete: false
+    media_folder: public/images/team
+    public_folder: /images/team
+    files:
+      - label: 教师列表
+        name: team
+        file: data/team.yml
+        fields:
+          - label: 教师成员
+            name: members
+            widget: list
+            summary: "{{fields.name}} · {{fields.role}}"
+            fields:
+              - { label: 姓名, name: name, widget: string }
+              - { label: 职称/身份, name: role, widget: string }
+              - { label: 研究方向, name: research, widget: string }
+              - { label: 简介, name: description, widget: text }
+              - { label: 头像文字占位, name: avatarLabel, widget: string, required: false }
+              - { label: 头像图片, name: avatar, widget: image, required: false }
+
+  - name: research
+    label: 研究方向
+    delete: false
+    files:
+      - label: 方向列表
+        name: research
+        file: data/research.yml
+        fields:
+          - label: 方向条目
+            name: items
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: 标题, name: title, widget: string }
+              - { label: 描述, name: description, widget: text }
+              - label: 标签
+                name: tags
+                widget: list
+                field: { label: 标签, name: tag, widget: string }
+              - { label: 视觉标签, name: visualLabel, widget: string }
+
+  - name: publications
+    label: 代表性成果
+    delete: false
+    media_folder: public/images/publications
+    public_folder: /images/publications
+    files:
+      - label: 论文列表
+        name: publications
+        file: data/publications.yml
+        fields:
+          - label: 论文条目
+            name: items
+            widget: list
+            summary: "{{fields.year}} · {{fields.title}}"
+            fields:
+              - { label: 标题, name: title, widget: string }
+              - { label: 期刊/会议, name: venue, widget: string }
+              - { label: 年份, name: year, widget: number, value_type: int, min: 1900, max: 2100 }
+              - { label: 备注, name: note, widget: string, required: false }
+              - { label: 配图说明, name: visualLabel, widget: string, required: false }
+              - { label: 配图, name: image, widget: image, required: false }
+              - label: 相关链接
+                name: links
+                widget: list
+                summary: "{{fields.label}}"
+                fields:
+                  - label: 类型
+                    name: label
+                    widget: select
+                    options: ["Paper", "Code", "Project"]
+                  - { label: 地址, name: url, widget: string }
+
+  - name: projects
+    label: 科研项目
+    delete: false
+    files:
+      - label: 项目列表
+        name: projects
+        file: data/projects.yml
+        fields:
+          - label: 项目条目
+            name: items
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: 项目名称, name: title, widget: string }
+              - { label: 项目类型/来源, name: sponsor, widget: string }
+              - { label: 周期, name: period, widget: string }
+              - { label: 简介, name: summary, widget: text }
+
+  - name: community
+    label: 团队成员
+    delete: false
+    files:
+      - label: 在读与毕业成员
+        name: community
+        file: data/community.yml
+        fields:
+          - label: 在读学生
+            name: students
+            widget: list
+            summary: "{{fields.name}} · {{fields.degree}}"
+            fields:
+              - { label: 姓名, name: name, widget: string }
+              - { label: 学位, name: degree, widget: string }
+              - { label: 研究方向, name: direction, widget: string, required: false }
+              - { label: 备注, name: note, widget: string, required: false }
+          - label: 毕业生
+            name: alumni
+            widget: list
+            summary: "{{fields.name}} · {{fields.destination}}"
+            fields:
+              - { label: 姓名, name: name, widget: string }
+              - { label: 学位, name: degree, widget: string }
+              - { label: 去向, name: destination, widget: string, required: false }
+              - { label: 备注, name: note, widget: string, required: false }
+
+  - name: gallery
+    label: 团队氛围
+    delete: false
+    media_folder: public/images/timeline
+    public_folder: /images/timeline
+    files:
+      - label: 相册条目
+        name: timeline
+        file: data/timeline.yml
+        fields:
+          - label: 图片列表
+            name: items
+            widget: list
+            summary: "{{fields.year}} · {{fields.alt}}"
+            fields:
+              - { label: 年份, name: year, widget: number, value_type: int, min: 1900, max: 2100 }
+              - { label: 描述, name: description, widget: text }
+              - { label: 图片, name: image, widget: image }
+              - { label: 图片说明, name: alt, widget: string }
+              - label: 布局
+                name: layout
+                widget: select
+                required: false
+                options: ["portrait", "landscape", "square"]
+              - { label: 宽度, name: width, widget: number, required: false, value_type: int, min: 1 }
+              - { label: 高度, name: height, widget: number, required: false, value_type: int, min: 1 }

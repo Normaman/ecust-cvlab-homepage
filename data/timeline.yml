@@ -1,23 +1,24 @@
-- year: 2026
-  description: 团队日常。
-  image: /images/timeline/合照2026.jpg
-  alt: 团队最新合影
-  layout: landscape
+items:
+  - year: 2026
+    description: 团队日常。
+    image: /images/timeline/合照2026.jpg
+    alt: 团队最新合影
+    layout: landscape
 
-- year: 2023
-  description: 团队建设初期的合影时刻，大家在还略显青涩的阶段，一起把实验室的日常慢慢变成真正的归属感。
-  image: /images/timeline/合照2023.jpg
-  alt: 团队建设初期合影
-  layout: portrait
+  - year: 2023
+    description: 团队建设初期的合影时刻，大家在还略显青涩的阶段，一起把实验室的日常慢慢变成真正的归属感。
+    image: /images/timeline/合照2023.jpg
+    alt: 团队建设初期合影
+    layout: portrait
 
-- year: 2023
-  description: 代表性成果集中展示的一刻，从论文图表到方法框架，大家把一次次打磨后的结果留在镜头里。
-  image: /images/timeline/campus-view.svg
-  alt: 成果展示与汇报时刻
-  layout: square
+  - year: 2023
+    description: 代表性成果集中展示的一刻，从论文图表到方法框架，大家把一次次打磨后的结果留在镜头里。
+    image: /images/timeline/campus-view.svg
+    alt: 成果展示与汇报时刻
+    layout: square
 
-- year: 2025
-  description: 学术会议与团队活动中的轻松瞬间，研究之外的笑声、交流和默契，也构成了课题组最重要的氛围。
-  image: /images/timeline/research-activity.svg
-  alt: 学术交流与团队活动合影
-  layout: landscape
+  - year: 2025
+    description: 学术会议与团队活动中的轻松瞬间，研究之外的笑声、交流和默契，也构成了课题组最重要的氛围。
+    image: /images/timeline/research-activity.svg
+    alt: 学术交流与团队活动合影
+    layout: landscape
