@@ -1,6 +1,7 @@
 const repo = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "";
 const isGithubActions = process.env.GITHUB_ACTIONS === "true";
-const basePath = isGithubActions && repo ? `/${repo}` : "";
+const isUserOrOrgPagesRepo = repo.endsWith(".github.io");
+const basePath = isGithubActions && repo && !isUserOrOrgPagesRepo ? `/${repo}` : "";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
