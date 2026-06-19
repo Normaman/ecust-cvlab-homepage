@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   getCommunityContent,
   getNewsItems,
@@ -9,18 +10,18 @@ import {
   getTimelineItems,
   type PublicationLink
 } from "@/lib/content";
-import { TimelineList } from "@/components/timeline-list";
+import { NewsCarousel } from "@/components/news-carousel";
+import { TeamGallery } from "@/components/team-gallery";
 
 const navItems = [
   { href: "#about", label: "关于我们" },
   { href: "#news", label: "最新动态" },
-  { href: "#team", label: "教师团队" },
-  { href: "#community", label: "学生与校友" },
+  { href: "#team", label: "指导教师" },
   { href: "#research", label: "研究方向" },
   { href: "#publications", label: "研究成果" },
   { href: "#projects", label: "科研项目" },
-  { href: "#timeline", label: "团队时间线" },
-  { href: "#join", label: "Join Us" }
+  { href: "#community", label: "团队成员" },
+  { href: "#gallery", label: "团队氛围" },
 ];
 
 function LinkIcon({ label }: { label: PublicationLink["label"] }) {
@@ -65,6 +66,8 @@ export default function HomePage() {
   const newsItems = getNewsItems();
   const projectItems = getProjectItems();
   const community = getCommunityContent();
+  const doctoralStudents = community.students.filter((student) => student.degree.includes("博士"));
+  const masterStudents = community.students.filter((student) => student.degree.includes("硕士"));
 
   return (
     <>
@@ -100,21 +103,21 @@ export default function HomePage() {
       </nav>
 
       <header id="top" className="border-b border-wikiAccent bg-gradient-to-b from-white to-wikiSoft pt-32">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-12 sm:px-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
           <section id="about" className="min-w-0 scroll-mt-36">
             <p className="mb-3 text-sm uppercase tracking-[0.22em] text-slate-500">{site.subtitle}</p>
             <h1 className="mb-5 text-3xl font-bold leading-tight text-wikiText sm:text-4xl lg:text-[2.8rem]">{site.title}</h1>
-            <div className="max-w-4xl space-y-4 text-[1.03rem] leading-8 text-slate-700">
+            <div className="max-w-6xl space-y-4 text-[1.03rem] leading-8 text-slate-700">
               {site.about.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <a
-                href="#timeline"
+                href="#gallery"
                 className="rounded-md bg-wikiBlue px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-110"
               >
-                查看团队发展时间线
+                浏览团队氛围相册
               </a>
               <a href="#join" className="wiki-link inline-flex items-center gap-2 text-sm font-semibold">
                 联系与招生
@@ -132,112 +135,46 @@ export default function HomePage() {
               ))}
             </div>
           </section>
-
-          <div className="space-y-5">
-            <aside className="wiki-card h-fit overflow-hidden rounded-xl">
-              <div className="border-b border-wikiBorder bg-wikiSoft px-5 py-3 text-center text-lg font-bold">课题组概览</div>
-              <dl className="grid grid-cols-[92px_minmax(0,1fr)] gap-x-3 gap-y-3 px-5 py-5 text-sm leading-6">
-                <dt className="font-semibold text-slate-600">机构</dt>
-                <dd>{site.infobox.institution}</dd>
-                <dt className="font-semibold text-slate-600">领域</dt>
-                <dd>{site.infobox.domains}</dd>
-                <dt className="font-semibold text-slate-600">论文</dt>
-                <dd>{site.infobox.papers}</dd>
-                <dt className="font-semibold text-slate-600">项目</dt>
-                <dd>{site.infobox.projects}</dd>
-                <dt className="font-semibold text-slate-600">荣誉</dt>
-                <dd>{site.infobox.honors}</dd>
-              </dl>
-            </aside>
-
-            <aside className="wiki-card rounded-xl p-5">
-              <h2 className="mb-3 text-lg font-bold">联系方式</h2>
-              <div className="space-y-2 text-sm leading-7 text-slate-700">
-                <p>
-                  <span className="font-semibold text-slate-600">邮箱：</span>
-                  <a className="wiki-link" href={`mailto:${site.infobox.email}`}>
-                    {site.infobox.email}
-                  </a>
-                </p>
-                <p>
-                  <span className="font-semibold text-slate-600">地址：</span>
-                  {site.infobox.address}
-                </p>
-                <p>
-                  <span className="font-semibold text-slate-600">实验室：</span>
-                  {site.infobox.office}
-                </p>
-              </div>
-            </aside>
-          </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <section id="news" className="mb-14 scroll-mt-36">
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-            <h2 className="section-title mb-0 text-2xl">最新动态</h2>
-            <p className="max-w-2xl text-sm leading-7 text-slate-600">聚焦近期论文录用、学术交流与学生培养进展，便于访客快速了解团队近期活跃度。</p>
-          </div>
-          <div className="grid gap-5 lg:grid-cols-3">
-            {newsItems.map((item) => (
-              <article key={`${item.date}-${item.title}`} className="wiki-card rounded-xl p-6">
-                <div className="mb-3 text-sm font-semibold tracking-[0.18em] text-wikiBlue">{item.date}</div>
-                <h3 className="text-lg font-bold text-wikiText">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-700">{item.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+        <div className="mb-14">
+          <NewsCarousel items={newsItems} />
+        </div>
 
         <section id="team" className="mb-14 scroll-mt-36">
-          <h2 className="section-title text-2xl">教师团队</h2>
+          <h2 className="section-title text-2xl">指导教师</h2>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {teamMembers.map((member) => (
-              <article key={member.name} className="wiki-card rounded-xl p-6">
-                <div className="mb-3 flex items-center justify-between gap-4">
-                  <h3 className="text-xl font-bold">{member.name}</h3>
-                  <span className="rounded-full bg-wikiSoft px-3 py-1 text-xs font-semibold text-slate-600">{member.role}</span>
+              <article key={member.name} className="wiki-card rounded-2xl p-6">
+                <div className="mb-4 flex items-start gap-4">
+                  {member.avatar ? (
+                    <div className="relative aspect-[5/7] w-[92px] shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                      <Image
+                        src={member.avatar}
+                        alt={`${member.name}头像`}
+                        fill
+                        className="object-cover"
+                        sizes="92px"
+                      />
+                    </div>
+                  ) : (
+                    <div className="teacher-avatar flex aspect-[5/7] w-[92px] shrink-0 items-center justify-center rounded-2xl text-lg font-bold text-white">
+                      {member.avatarLabel ?? member.name.slice(0, 1)}
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <div className="mb-2 flex flex-wrap items-center gap-3">
+                      <h3 className="text-xl font-bold">{member.name}</h3>
+                      <span className="rounded-full bg-wikiSoft px-3 py-1 text-xs font-semibold text-slate-600">{member.role}</span>
+                    </div>
+                    <p className="text-sm leading-7 text-slate-700">研究方向：{member.research}</p>
+                  </div>
                 </div>
-                <p className="mb-3 text-slate-700">研究方向：{member.research}</p>
                 <p className="text-sm leading-7 text-slate-600">{member.description}</p>
               </article>
             ))}
-          </div>
-        </section>
-
-        <section id="community" className="mb-14 scroll-mt-36">
-          <h2 className="section-title text-2xl">学生与校友</h2>
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="wiki-card rounded-xl p-6">
-              <h3 className="mb-4 text-lg font-bold">在读学生</h3>
-              <div className="space-y-4">
-                {community.students.map((student) => (
-                  <div key={`${student.name}-${student.degree}`} className="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <h4 className="font-semibold text-wikiText">{student.name}</h4>
-                      <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">{student.degree}</span>
-                    </div>
-                    <p className="mt-2 text-sm leading-7 text-slate-700">{student.direction}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="wiki-card rounded-xl p-6">
-              <h3 className="mb-4 text-lg font-bold">优秀校友</h3>
-              <div className="space-y-4">
-                {community.alumni.map((alumnus) => (
-                  <div key={`${alumnus.name}-${alumnus.destination}`} className="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <h4 className="font-semibold text-wikiText">{alumnus.name}</h4>
-                      <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">{alumnus.destination}</span>
-                    </div>
-                    <p className="mt-2 text-sm leading-7 text-slate-700">{alumnus.note}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </section>
 
@@ -278,25 +215,51 @@ export default function HomePage() {
             <h2 className="section-title mb-0 text-2xl">研究成果与发表</h2>
             <p className="max-w-2xl text-sm leading-7 text-slate-600">展示代表性论文成果，并对重要会议亮点与代码资源进行清晰区分与高亮。</p>
           </div>
-          <div className="wiki-card overflow-hidden rounded-xl">
+          <div className="wiki-card overflow-hidden rounded-2xl">
             <div className="divide-y divide-slate-200">
               {publications.map((paper) => (
-                <article key={`${paper.title}-${paper.year}`} className="px-6 py-5">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{paper.venue}</span>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{paper.year}</span>
-                    {paper.note ? (
-                      <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">{paper.note}</span>
-                    ) : null}
-                  </div>
-                  <h3 className="mt-3 text-lg font-semibold leading-8 text-slate-800">{paper.title}</h3>
-                  <div className="mt-4 flex flex-wrap gap-3 text-sm">
-                    {paper.links.map((link) => (
-                      <a key={`${paper.title}-${link.label}`} href={link.url} className="publication-link">
-                        <LinkIcon label={link.label} />
-                        {link.label}
-                      </a>
-                    ))}
+                <article key={`${paper.title}-${paper.year}`} className="grid gap-5 px-6 py-5 md:grid-cols-[220px_minmax(0,1fr)]">
+                  {paper.image ? (
+                    <div className="relative min-h-[144px] overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                      <Image
+                        src={paper.image}
+                        alt={`${paper.title}配图`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 220px"
+                      />
+                      <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/55 to-transparent px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+                        {paper.venue}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="paper-visual flex min-h-[144px] flex-col justify-between rounded-2xl p-4">
+                      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-wikiBlue">{paper.venue}</div>
+                      <div className="text-lg font-bold leading-7 text-slate-800">{paper.visualLabel ?? "研究成果示意图"}</div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div className="h-10 rounded-xl bg-white/85" />
+                        <div className="h-10 rounded-xl bg-white/60" />
+                        <div className="h-10 rounded-xl bg-white/85" />
+                      </div>
+                    </div>
+                  )}
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{paper.venue}</span>
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{paper.year}</span>
+                      {paper.note ? (
+                        <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">{paper.note}</span>
+                      ) : null}
+                    </div>
+                    <h3 className="mt-3 text-lg font-semibold leading-8 text-slate-800">{paper.title}</h3>
+                    <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                      {paper.links.map((link) => (
+                        <a key={`${paper.title}-${link.label}`} href={link.url} className="publication-link">
+                          <LinkIcon label={link.label} />
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </article>
               ))}
@@ -320,19 +283,74 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="timeline" className="mb-14 scroll-mt-36">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="section-title mb-3 text-2xl">团队发展时间线</h2>
-              <p className="max-w-3xl leading-7 text-slate-700">
-                通过交互式垂直时间线回顾团队建设、代表性成果、学术交流与研究方向演进，突出课题组的持续积累与学术影响力。
-              </p>
+        <section id="community" className="mb-14 scroll-mt-36">
+          <h2 className="section-title text-2xl">团队成员</h2>
+          <div className="space-y-6">
+            <div className="wiki-card rounded-xl p-6">
+              <h3 className="mb-5 text-lg font-bold">在读学生</h3>
+              <div className="space-y-5">
+                <div>
+                  <h4 className="mb-3 text-base font-semibold text-wikiText">博士生</h4>
+                  <div className="space-y-3">
+                    {doctoralStudents.map((student) => (
+                      <div key={`${student.name}-${student.degree}`} className="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <h5 className="font-semibold text-wikiText">{student.name}</h5>
+                          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">{student.degree}</span>
+                        </div>
+                        <p className="mt-2 text-sm leading-7 text-slate-700">{student.direction}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="mb-3 text-base font-semibold text-wikiText">硕士生</h4>
+                  <div className="space-y-3">
+                    {masterStudents.map((student) => (
+                      <div key={`${student.name}-${student.degree}`} className="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <h5 className="font-semibold text-wikiText">{student.name}</h5>
+                          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">{student.degree}</span>
+                        </div>
+                        <p className="mt-2 text-sm leading-7 text-slate-700">{student.direction}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-            <a href="#top" className="wiki-link text-sm font-semibold">
-              返回顶部
-            </a>
+
+            <div className="wiki-card rounded-xl p-6">
+              <h3 className="mb-5 text-lg font-bold">毕业生</h3>
+              <div className="space-y-3">
+                {community.alumni.map((alumnus) => (
+                  <div key={`${alumnus.name}-${alumnus.destination}`} className="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex flex-wrap items-center gap-3">
+                        <h4 className="font-semibold text-wikiText">{alumnus.name}</h4>
+                        {alumnus.degree ? (
+                          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">{alumnus.degree}</span>
+                        ) : null}
+                      </div>
+                      <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">去向：{alumnus.destination}</span>
+                    </div>
+                    <p className="mt-2 text-sm leading-7 text-slate-700">{alumnus.note}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <TimelineList items={timelineItems} />
+        </section>
+
+        <section id="gallery" className="mb-14 scroll-mt-36">
+          <div className="mb-8">
+            <div>
+              <h2 className="section-title mb-2 text-2xl">团队氛围</h2>
+              <p className="italic tracking-[0.08em] text-slate-500">moments caught between blinks</p>
+            </div>
+          </div>
+          <TeamGallery items={timelineItems} />
         </section>
 
         <section id="join" className="scroll-mt-36">

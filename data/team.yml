@@ -2,13 +2,21 @@
   role: 教授 / 博导
   research: 目标检测、AIGC
   description: 主持装备预研、国自然面上等 8 项国家级项目，是团队科研与工程转化的重要带头人。
-
-- name: 葛建飞
-  role: 博士
-  research: 大尺度复杂场景建图、渲染与理解
-  description: 围绕三维重建与场景智能理解开展研究，关注复杂真实环境下的定位、建图与视觉表达。
+  avatarLabel: CZH
+  avatar: /images/team/chenzhihua.jpg
 
 - name: 戴蕾
   role: 讲师 / 硕导
   research: 多模态大模型、知识图谱
   description: 聚焦知识增强的智能感知与理解，在多模态大模型与结构化知识结合方面持续推进研究。
+  avatarLabel: DL
+  avatar: /images/team/dailei.jpg
+
+- name: 葛建飞
+  role: 博士
+  research: 大尺度复杂场景建图、渲染与理解
+  description: 围绕三维重建与场景智能理解开展研究，关注复杂真实环境下的定位、建图与视觉表达。
+  avatarLabel: GJF
+  avatar: /images/team/ge-jianfei.svg
+
+

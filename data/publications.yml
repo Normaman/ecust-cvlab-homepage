@@ -1,6 +1,8 @@
 - title: "FSAD-Net: Feedback spatial attention dehazing network"
   venue: IEEE TNNLS
   year: 2023
+  visualLabel: 去雾增强结果图
+  image: /images/publications/fsad-net.svg
   links:
     - label: Paper
       url: "#"
@@ -10,6 +12,8 @@
 - title: Structure-aware motion deblurring using multi-adversarial optimized cyclegan
   venue: IEEE TIP
   year: 2021
+  visualLabel: 去模糊恢复对比
+  image: /images/publications/deblurring-cyclegan.svg
   links:
     - label: Paper
       url: "#"
@@ -17,6 +21,8 @@
 - title: "MNGNAS: Distilling Adaptive Combination of Multiple Searched Networks for One-Shot Neural Architecture Search"
   venue: IEEE TPAMI
   year: 2023
+  visualLabel: 架构搜索框架图
+  image: /images/publications/mngnas.svg
   links:
     - label: Paper
       url: "#"
@@ -26,6 +32,8 @@
 - title: Gradient Amplification for Gradient Matching Based Dataset Distillation
   venue: Neural Networks
   year: 2025
+  visualLabel: 数据蒸馏流程图
+  image: /images/publications/dataset-distillation.svg
   links:
     - label: Paper
       url: "#"
@@ -34,6 +42,8 @@
   venue: NeurIPS
   year: 2025
   note: Spotlight
+  visualLabel: AIGC 检测效果图
+  image: /images/publications/dual-data-alignment.svg
   links:
     - label: Paper
       url: "#"

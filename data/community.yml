@@ -1,24 +1,27 @@
 students:
-  - name: 王同学
+  - name: 高同学
     degree: 博士研究生
     direction: AIGC 检测与模型泛化
-  - name: 李同学
+  - name: 黎同学
     degree: 博士研究生
-    direction: 大尺度建图与三维视觉
-  - name: 周同学
-    degree: 硕士研究生
+    direction: 三维视觉
+  - name: 梁同学
+    degree: 博士研究生
     direction: 图像复原与低光增强
-  - name: 赵同学
+  - name: 刘同学
     degree: 硕士研究生
-    direction: 红外小目标检测与自动泊车
+    direction: 三维视觉
 
 alumni:
   - name: 张校友
-    destination: 国内重点高校攻读博士
-    note: 研究方向为图像恢复与生成模型安全
-  - name: 刘校友
+    degree: 博士毕业生
+    destination: 国内重点高校博士后
+    note: 数据集蒸馏
+  - name: 周校友
+    degree: 硕士毕业生
     destination: 知名科技企业算法岗
     note: 从事智能驾驶视觉感知相关研发
   - name: 陈校友
+    degree: 硕士毕业生
     destination: 科研院所
     note: 持续开展遥感视觉与目标检测研究
