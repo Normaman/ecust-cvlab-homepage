@@ -71,6 +71,8 @@ collections:
       - label: 最新动态
         name: news
         file: data/news.yml
+        media_folder: public/images/news
+        public_folder: /images/news
         fields:
           - label: 动态列表
             name: items
@@ -80,13 +82,15 @@ collections:
               - { label: 日期, name: date, widget: string, hint: "例如 2025-12" }
               - { label: 标题, name: title, widget: string }
               - { label: 描述, name: description, widget: text }
-              - { label: 图片, name: image, widget: image, required: false, media_folder: public/images/news, public_folder: /images/news, hint: "这里上传的图片会保存到 public/images/news/" }
+              - { label: 图片, name: image, widget: image, required: false, hint: "这里上传的图片会保存到 public/images/news/" }
               - { label: 宽度, name: width, widget: number, required: false, value_type: int, min: 1 }
               - { label: 高度, name: height, widget: number, required: false, value_type: int, min: 1 }
 
       - label: 指导教师
         name: team
         file: data/team.yml
+        media_folder: public/images/team
+        public_folder: /images/team
         fields:
           - label: 教师成员
             name: members
@@ -98,7 +102,7 @@ collections:
               - { label: 研究方向, name: research, widget: string }
               - { label: 简介, name: description, widget: text }
               - { label: 头像文字占位, name: avatarLabel, widget: string, required: false }
-              - { label: 头像图片, name: avatar, widget: image, required: false, media_folder: public/images/team, public_folder: /images/team, hint: "这里上传的头像会保存到 public/images/team/" }
+              - { label: 头像图片, name: avatar, widget: image, required: false, hint: "这里上传的头像会保存到 public/images/team/" }
 
       - label: 研究方向
         name: research
@@ -120,6 +124,8 @@ collections:
       - label: 代表性成果
         name: publications
         file: data/publications.yml
+        media_folder: public/images/publications
+        public_folder: /images/publications
         fields:
           - label: 论文条目
             name: items
@@ -131,7 +137,7 @@ collections:
               - { label: 年份, name: year, widget: number, value_type: int, min: 1900, max: 2100 }
               - { label: 备注, name: note, widget: string, required: false }
               - { label: 配图说明, name: visualLabel, widget: string, required: false }
-              - { label: 配图, name: image, widget: image, required: false, media_folder: public/images/publications, public_folder: /images/publications, hint: "这里上传的论文配图会保存到 public/images/publications/" }
+              - { label: 配图, name: image, widget: image, required: false, hint: "这里上传的论文配图会保存到 public/images/publications/" }
               - label: 相关链接
                 name: links
                 widget: list
@@ -183,6 +189,8 @@ collections:
       - label: 团队氛围
         name: timeline
         file: data/timeline.yml
+        media_folder: public/images/timeline
+        public_folder: /images/timeline
         fields:
           - label: 图片列表
             name: items
@@ -191,7 +199,7 @@ collections:
             fields:
               - { label: 年份, name: year, widget: number, value_type: int, min: 1900, max: 2100 }
               - { label: 描述, name: description, widget: text }
-              - { label: 图片, name: image, widget: image, media_folder: public/images/timeline, public_folder: /images/timeline, hint: "这里上传的相册图片会保存到 public/images/timeline/" }
+              - { label: 图片, name: image, widget: image, hint: "这里上传的相册图片会保存到 public/images/timeline/" }
               - { label: 图片说明, name: alt, widget: string }
               - label: 布局
                 name: layout
