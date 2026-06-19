@@ -71,7 +71,7 @@ collections:
       - label: 最新动态
         name: news
         file: data/news.yml
-        media_folder: public/images/news
+        media_folder: ../public/images/news
         public_folder: /images/news
         fields:
           - label: 动态列表
@@ -89,7 +89,7 @@ collections:
       - label: 指导教师
         name: team
         file: data/team.yml
-        media_folder: public/images/team
+        media_folder: ../public/images/team
         public_folder: /images/team
         fields:
           - label: 教师成员
@@ -124,7 +124,7 @@ collections:
       - label: 代表性成果
         name: publications
         file: data/publications.yml
-        media_folder: public/images/publications
+        media_folder: ../public/images/publications
         public_folder: /images/publications
         fields:
           - label: 论文条目
@@ -189,7 +189,7 @@ collections:
       - label: 团队氛围
         name: timeline
         file: data/timeline.yml
-        media_folder: public/images/timeline
+        media_folder: ../public/images/timeline
         public_folder: /images/timeline
         fields:
           - label: 图片列表
