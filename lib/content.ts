@@ -2,6 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
 
+const repo = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "";
+const isGithubActions = process.env.GITHUB_ACTIONS === "true";
+const isUserOrOrgPagesRepo = repo.endsWith(".github.io");
+const assetBasePath = isGithubActions && repo && !isUserOrOrgPagesRepo ? `/${repo}` : "";
+
 export type SiteContent = {
   title: string;
   subtitle: string;
@@ -130,6 +135,22 @@ function getImageFilePath(publicPath: string) {
   return path.join(process.cwd(), "public", publicPath.replace(/^\/+/, "").replaceAll("/", path.sep));
 }
 
+function withAssetBasePath(publicPath: string) {
+  if (!assetBasePath) {
+    return publicPath;
+  }
+
+  if (!publicPath.startsWith("/")) {
+    return `${assetBasePath}/${publicPath}`;
+  }
+
+  if (publicPath.startsWith(`${assetBasePath}/`)) {
+    return publicPath;
+  }
+
+  return `${assetBasePath}${publicPath}`;
+}
+
 function getSvgDimensions(filePath: string) {
   const content = fs.readFileSync(filePath, "utf8");
   const viewBoxMatch = content.match(/viewBox=["']\s*[\d.\-]+\s+[\d.\-]+\s+([\d.\-]+)\s+([\d.\-]+)\s*["']/i);
@@ -235,7 +256,12 @@ export function getSiteContent() {
 }
 
 export function getTeamMembers() {
-  return readYamlFile<TeamMember[]>("team.yml");
+  const members = readYamlFile<TeamMember[]>("team.yml");
+
+  return members.map((member) => ({
+    ...member,
+    avatar: member.avatar ? withAssetBasePath(member.avatar) : member.avatar
+  }));
 }
 
 export function getResearchItems() {
@@ -244,7 +270,12 @@ export function getResearchItems() {
 
 export function getPublications() {
   const items = readYamlFile<Publication[]>("publications.yml");
-  return items.sort((a, b) => b.year - a.year);
+  return items
+    .map((item) => ({
+      ...item,
+      image: item.image ? withAssetBasePath(item.image) : item.image
+    }))
+    .sort((a, b) => b.year - a.year);
 }
 
 export function getTimelineItems() {
@@ -258,6 +289,7 @@ export function getTimelineItems() {
 
     return {
       ...item,
+      image: withAssetBasePath(item.image),
       width: dimensions.width,
       height: dimensions.height
     };
@@ -275,6 +307,7 @@ export function getNewsItems() {
 
     return {
       ...item,
+      image: withAssetBasePath(item.image),
       width: dimensions.width,
       height: dimensions.height
     };
