@@ -7,9 +7,4 @@ items:
   - date: 2025-07
     title: 数据蒸馏成果发表于 Neural Networks
     description: Gradient Amplification for Gradient Matching Based Dataset Distillation 被 Neural Networks 录用，进一步强化课题组在高效学习方向的研究积累。
-    image: /images/news/dataset-distillation.svg
-
-  - date: 2024-11
-    title: 团队参加学术会议并进行成果交流
-    description: 团队围绕计算机视觉与人工智能相关议题参加国内外学术会议，展示图像恢复、目标检测与三维视觉等方向的新进展。
-    image: /images/news/academic-exchange.svg
+    image: /images/news/nn.png

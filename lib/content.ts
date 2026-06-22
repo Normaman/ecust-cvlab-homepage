@@ -48,8 +48,7 @@ export type TeamMember = {
 export type ResearchItem = {
   title: string;
   description: string;
-  tags: string[];
-  visualLabel: string;
+  image: string;
 };
 
 export type PublicationLink = {
@@ -277,7 +276,12 @@ export function getTeamMembers() {
 }
 
 export function getResearchItems() {
-  return readCollectionFile<ResearchItem>("research.yml", "items");
+  const items = readCollectionFile<ResearchItem>("research.yml", "items");
+  return items
+    .map((item) => ({
+      ...item,
+      image: item.image ? withAssetBasePath(item.image) : item.image
+    }))
 }
 
 export function getPublications() {

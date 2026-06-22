@@ -1,27 +1,58 @@
 students:
-  - name: 高同学
+  - name: 高嘉晖
     degree: 博士研究生
     direction: AIGC 检测与模型泛化
-  - name: 黎同学
+  - name: 奚俊炜
+    degree: 博士研究生
+    direction: AIGC 检测与模型泛化
+  - name: 陈旭
+    degree: 博士研究生
+    direction: AIGC 检测与模型泛化
+  - name: 黎宇航
     degree: 博士研究生
     direction: 三维视觉
-  - name: 梁同学
+  - name: 梁磊
     degree: 博士研究生
     direction: 图像复原与低光增强
-  - name: 刘同学
+  - name: 高佳丹
+    degree: 硕士研究生
+    direction: 图像恢复
+  - name: 徐佳骏
+    degree: 硕士研究生
+    direction: 数据集蒸馏
+  - name: 徐浩博
+    degree: 硕士研究生
+    direction: 数据集蒸馏
+  - name: 刘斌
     degree: 硕士研究生
     direction: 三维视觉
+  - name: 刘洋
+    degree: 硕士研究生
+    direction: 鱼眼目标检测
+
 
 alumni:
-  - name: 张校友
-    degree: 博士毕业生
-    destination: 国内重点高校博士后
-    note: 数据集蒸馏
-  - name: 周校友
-    degree: 硕士毕业生
-    destination: 知名科技企业算法岗
-    note: 从事智能驾驶视觉感知相关研发
-  - name: 陈校友
-    degree: 硕士毕业生
-    destination: 科研院所
-    note: 持续开展遥感视觉与目标检测研究
+  - name: 张景轩
+    degree: 26届博士毕业生
+    destination: 西湖大学
+    note: 博士后
+  - name: 仇谷皓
+    degree: 26届博士毕业生
+    destination: 恒泽
+    note: 算法工程师
+  - name: 李晓闯
+    degree: 26届硕士毕业生
+    destination: 哔哩哔哩
+    note: 后端开发
+  - name: 赵紫玉
+    degree: 26届硕士毕业生
+    destination: 金山
+    note: 前端开发
+  - name: 杲雯
+    degree: 26届硕士毕业生
+    destination: 菜鸟
+    note: 数据开发
+  - name: 陈王手丽
+    degree: 26届硕士毕业生
+    destination: 众安
+    note: 测试开发

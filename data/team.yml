@@ -13,10 +13,3 @@ members:
     avatarLabel: DL
     avatar: /images/team/dailei.jpg
 
-  - name: 葛建飞
-    role: 博士
-    research: 大尺度复杂场景建图、渲染与理解
-    description: 围绕三维重建与场景智能理解开展研究，关注复杂真实环境下的定位、建图与视觉表达。
-    avatarLabel: GJF
-    avatar: /images/team/ge-jianfei.svg
-

@@ -178,42 +178,47 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="research" className="mb-14 scroll-mt-36">
-          <h2 className="section-title text-2xl">研究方向</h2>
-          <div className="grid gap-6 xl:grid-cols-2">
-            {researchItems.map((item, index) => (
-              <article key={item.title} className={`wiki-card rounded-2xl p-6 ${index === researchItems.length - 1 ? "xl:col-span-2" : ""}`}>
-                <div className={`grid gap-5 ${index === researchItems.length - 1 ? "lg:grid-cols-[minmax(0,1fr)_280px]" : "md:grid-cols-[minmax(0,1fr)_220px]"}`}>
-                  <div>
-                    <h3 className="mb-3 text-lg font-bold">{item.title}</h3>
-                    <p className="leading-7 text-slate-700">{item.description}</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {item.tags.map((tag) => (
-                        <span key={`${item.title}-${tag}`} className="rounded-full bg-wikiSoft px-3 py-1 text-xs font-semibold text-slate-600">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="research-visual flex min-h-[152px] flex-col justify-between rounded-2xl p-5">
-                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-wikiBlue">Research Focus</div>
-                    <div className="text-xl font-bold text-slate-800">{item.visualLabel}</div>
-                    <div className="grid grid-cols-3 gap-2">
-                      <div className="h-12 rounded-xl bg-white/80" />
-                      <div className="h-12 rounded-xl bg-white/60" />
-                      <div className="h-12 rounded-xl bg-white/80" />
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
+<section id="research" className="mb-14 scroll-mt-36">
+  <h2 className="section-title text-2xl">研究方向</h2>
+  <div className="grid gap-6 xl:grid-cols-2">
+    {researchItems.map((item, index) => (
+      <article
+        key={item.title}
+        className={`wiki-card rounded-2xl p-6 ${
+          index === researchItems.length - 1 ? "xl:col-span-2" : ""
+        }`}
+      >
+        <div
+          className={`grid gap-5 ${
+            index === researchItems.length - 1
+              ? "lg:grid-cols-[minmax(0,1fr)_280px]"
+              : "md:grid-cols-[minmax(0,1fr)_220px]"
+          }`}
+        >
+          <div>
+            <h3 className="mb-3 text-lg font-bold">{item.title}</h3>
+            <p className="leading-7 text-slate-700">{item.description}</p>
           </div>
-        </section>
+          {/* 右侧整块纯背景图，无任何文字、无遮罩 */}
+          <div
+            className="research-visual rounded-2xl min-h-[152px]"
+            style={{
+              backgroundImage: `url(${item.image})`,
+              backgroundSize: "contain", // cover→contain 完整显示
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundColor: "#f1f5f9" // 空白填充底色
+            }}
+          />
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
 
         <section id="publications" className="mb-14 scroll-mt-36">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <h2 className="section-title mb-0 text-2xl">研究成果与发表</h2>
-            <p className="max-w-2xl text-sm leading-7 text-slate-600">展示代表性论文成果，并对重要会议亮点与代码资源进行清晰区分与高亮。</p>
           </div>
           <div className="wiki-card overflow-hidden rounded-2xl">
             <div className="divide-y divide-slate-200">
@@ -395,9 +400,9 @@ export default function HomePage() {
           <p>{site.title} 团队主页</p>
           <div className="flex flex-wrap items-center gap-4">
             <p>聚焦计算机视觉、人工智能、AIGC 安全与三维视觉研究</p>
-            <a href="admin/" className="wiki-link font-semibold">
+            {/* <a href="admin/" className="wiki-link font-semibold">
               内容管理后台
-            </a>
+            </a> */}
           </div>
         </div>
       </footer>
