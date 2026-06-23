@@ -107,6 +107,8 @@ collections:
       - label: 研究方向
         name: research
         file: data/research.yml
+        media_folder: ../public/images/research
+        public_folder: /images/research
         fields:
           - label: 方向条目
             name: items
@@ -115,11 +117,7 @@ collections:
             fields:
               - { label: 标题, name: title, widget: string }
               - { label: 描述, name: description, widget: text }
-              - label: 标签
-                name: tags
-                widget: list
-                field: { label: 标签, name: tag, widget: string }
-              - { label: 视觉标签, name: visualLabel, widget: string }
+              - { label: 图片, name: image, widget: image, required: false, hint: "这里上传的图片会保存到 public/images/research/" }
 
       - label: 代表性成果
         name: publications

@@ -178,43 +178,54 @@ export default function HomePage() {
           </div>
         </section>
 
-<section id="research" className="mb-14 scroll-mt-36">
-  <h2 className="section-title text-2xl">研究方向</h2>
-  <div className="grid gap-6 xl:grid-cols-2">
-    {researchItems.map((item, index) => (
-      <article
-        key={item.title}
-        className={`wiki-card rounded-2xl p-6 ${
-          index === researchItems.length - 1 ? "xl:col-span-2" : ""
-        }`}
-      >
-        <div
-          className={`grid gap-5 ${
-            index === researchItems.length - 1
-              ? "lg:grid-cols-[minmax(0,1fr)_280px]"
-              : "md:grid-cols-[minmax(0,1fr)_220px]"
-          }`}
-        >
-          <div>
-            <h3 className="mb-3 text-lg font-bold">{item.title}</h3>
-            <p className="leading-7 text-slate-700">{item.description}</p>
-          </div>
-          {/* 右侧整块纯背景图，无任何文字、无遮罩 */}
-          <div
-            className="research-visual rounded-2xl min-h-[152px]"
-            style={{
-              backgroundImage: `url(${item.image})`,
-              backgroundSize: "contain", // cover→contain 完整显示
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundColor: "#f1f5f9" // 空白填充底色
-            }}
-          />
-        </div>
-      </article>
-    ))}
-  </div>
-</section>
+<section id="research" className="mb-14 scroll-mt-36 max-w-7xl mx-auto px-4">
+      <h2 className="text-2xl mb-8 font-bold border-b-2 border-gray-900 pb-3">研究方向</h2>
+
+      {/* 移除单列限制，使用多列响应式网格布局 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg gap-8">
+        {researchItems.map((item, index) => (
+          <article
+            key={index}
+            // group类名是实现悬停联动的核心
+            className="group relative h-[450px] rounded-2xl overflow-hidden shadow-lg cursor-pointer"
+          >
+            {/* 1. 全屏背景图：悬停时带有轻微的缓慢放大效果 */}
+            <div
+              className="absolute inset-0 bg-contain bg-no-repeat bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+              style={{ 
+                backgroundImage: `url(${item.image})`,
+                backgroundColor: '#ffffff' // 建议加一个深色底色，防止图片比例不一时两侧留白太突兀
+              }}
+            />
+
+            {/* 2. 黑色渐变遮罩：确保白色文字能看清，悬停时颜色变深 */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+
+            {/* 3. 内容容器（核心滑动动画所在）
+                translate-y-[calc(100%-4.5rem)]：默认状态下把容器往下推，只露出顶部约 4.5rem（恰好是标题的高度）
+                group-hover:translate-y-0：鼠标悬停时，整个容器滑动回原位（0点），展示出完整内容
+            */}
+            <div className="absolute inset-x-0 bottom-0 p-6 transform translate-y-[calc(100%-4.2rem)] group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
+              
+              {/* 标题区：默认可见 */}
+              <h3 className="text-2xl font-bold text-white mb-4 line-clamp-1">
+                {item.title}
+              </h3>
+
+              {/* 详情区：默认透明度为0，悬停时淡入并跟随容器滑上来 */}
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                <p className="text-lg text-gray-300 leading-relaxed line-clamp-6 text-justify">
+                  {item.description}
+                </p>
+                {/* 底部小点缀，增强“交互”引导感 */}
+                
+              </div>
+
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
 
         <section id="publications" className="mb-14 scroll-mt-36">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
