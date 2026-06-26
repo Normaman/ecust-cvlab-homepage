@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import type { NewsItem } from "@/lib/content";
 
@@ -10,19 +11,58 @@ type NewsCarouselProps = {
 
 export function NewsCarousel({ items }: NewsCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const [slidePhase, setSlidePhase] = useState<"idle" | "exit" | "enter">("idle");
+  const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const transitionTimerRef = useRef<number | null>(null);
+  const enterTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    return () => {
+      if (transitionTimerRef.current) {
+        window.clearTimeout(transitionTimerRef.current);
+      }
+
+      if (enterTimerRef.current) {
+        window.clearTimeout(enterTimerRef.current);
+      }
+    };
+  }, []);
 
   const changeSlide = useCallback(
     (direction: 1 | -1) => {
-      setIsVisible(false);
-      window.setTimeout(() => {
+      if (items.length <= 1 || slidePhase !== "idle") {
+        return;
+      }
+
+      if (transitionTimerRef.current) {
+        window.clearTimeout(transitionTimerRef.current);
+      }
+
+      if (enterTimerRef.current) {
+        window.clearTimeout(enterTimerRef.current);
+      }
+
+      setSlideDirection(direction);
+      setSlidePhase("exit");
+
+      transitionTimerRef.current = window.setTimeout(() => {
         setActiveIndex((prev) => (prev + direction + items.length) % items.length);
-        setIsVisible(true);
-      }, 180);
+        setSlidePhase("enter");
+
+        enterTimerRef.current = window.setTimeout(() => {
+          setSlidePhase("idle");
+          enterTimerRef.current = null;
+        }, 34);
+
+        transitionTimerRef.current = null;
+      }, 220);
     },
-    [items.length]
+    [items.length, slidePhase]
   );
 
   useEffect(() => {
@@ -71,126 +111,187 @@ export function NewsCarousel({ items }: NewsCarouselProps) {
 
   const activeItem = items[activeIndex];
   const activeKey = `${activeItem.date}-${activeItem.title}`;
+  const progressWidth = `${((activeIndex + 1) / items.length) * 100}%`;
+  const imageTransitionClass =
+    slidePhase === "exit"
+      ? slideDirection === 1
+        ? "-translate-x-8 opacity-0 scale-[0.985]"
+        : "translate-x-8 opacity-0 scale-[0.985]"
+      : slidePhase === "enter"
+        ? slideDirection === 1
+          ? "translate-x-8 opacity-0 scale-[1.015]"
+          : "-translate-x-8 opacity-0 scale-[1.015]"
+        : "translate-x-0 opacity-100 scale-100";
+  const contentTransitionClass =
+    slidePhase === "exit"
+      ? slideDirection === 1
+        ? "-translate-x-5 translate-y-2 opacity-0"
+        : "translate-x-5 translate-y-2 opacity-0"
+      : slidePhase === "enter"
+        ? slideDirection === 1
+          ? "translate-x-5 translate-y-3 opacity-0"
+          : "-translate-x-5 translate-y-3 opacity-0"
+        : "translate-x-0 translate-y-0 opacity-100";
 
   return (
-    <section id="news" className="scroll-mt-36">
-      <div className="wiki-card overflow-hidden rounded-2xl">
-        <div className="border-b border-wikiBorder bg-wikiSoft px-5 py-3">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-wikiBlue">Latest News</div>
-              <h2 className="mt-1 text-lg font-bold text-wikiText">最新动态</h2>
-            </div>
-            <div className="text-xs font-medium text-slate-500">{activeIndex + 1} / {items.length}</div>
-          </div>
-        </div>
+    <section id="news" className="scroll-mt-36 w-full pt-2 pb-12 sm:pt-4 lg:pt-6">
+  {/* 1. 标题区重构：极简排版 + 优雅的页码指示器 */}
+  <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 px-2 sm:px-4">
+    
+    {/* 左侧：主次翻转，大标题镇场，降字重，柔和色彩 */}
+    <div className="space-y-2">
+      <h2 className="text-4xl font-semibold tracking-tight text-slate-800 sm:text-3xl">
+        最新动态
+      </h2>
+      <p className="text-[13px] font-medium tracking-[0.25em] text-slate-400 uppercase pl-1">
+        Latest News
+      </p>
+    </div>
 
-        <div className="p-5">
-          <div
-            className="overflow-hidden rounded-2xl border border-slate-200 bg-white"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            <div className="relative bg-slate-50 p-3">
-              <button
-                type="button"
-                className="absolute left-6 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-2xl text-white transition hover:bg-black/65"
-                onClick={() => changeSlide(-1)}
-                aria-label="上一条动态"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className="absolute right-6 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-2xl text-white transition hover:bg-black/65"
-                onClick={() => changeSlide(1)}
-                aria-label="下一条动态"
-              >
-                ›
-              </button>
-              <div
-                key={activeKey}
-                className={`transition-all duration-300 ease-out ${
-                  isVisible ? "translate-x-0 opacity-100" : "translate-x-3 opacity-0"
-                }`}
-              >
-                <button type="button" className="block w-full text-left" onClick={() => setIsLightboxOpen(true)} aria-label={`查看 ${activeItem.title} 大图`}>
+    {/* 右侧：将零散的页码升级为苹果风“小药丸”标签 */}
+    <div className="inline-flex items-center rounded-full bg-white/75 px-4 py-1.5 text-sm font-medium text-slate-500 ring-1 ring-inset ring-slate-900/5 backdrop-blur-md transition-all">
+      <span className="font-semibold text-slate-800 mr-1.5">
+        {activeIndex + 1}
+      </span> 
+      <span className="text-slate-300 mx-1">/</span> 
+      <span className="ml-1.5">
+        {items.length}
+      </span>
+    </div>
+
+  </div>
+
+  {/* 2. 核心卡片：Apple Bento 风格的超大圆角与弥散阴影 */}
+  <div
+    className="apple-panel group relative overflow-hidden rounded-[2.75rem] bg-white/82 p-4 shadow-[0_10px_34px_rgba(15,23,42,0.045)] ring-1 ring-slate-900/5 backdrop-blur-xl transition-all duration-500 hover:shadow-[0_24px_56px_rgba(15,23,42,0.08)]"
+    onMouseEnter={() => setIsHovered(true)}
+    onMouseLeave={() => setIsHovered(false)}
+  >
+    {/* 图片展示区：内嵌超大圆角，配合毛玻璃操作按钮 */}
+    <div className="relative overflow-hidden rounded-[2.1rem] bg-slate-50">
+      
+      {/* 苹果风悬浮按钮：平时隐藏，鼠标移入卡片时渐显，采用毛玻璃材质 */}
+      <button
+        type="button"
+        className="apple-floating-control absolute left-6 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-slate-800 opacity-0 group-hover:opacity-100"
+        onClick={() => changeSlide(-1)}
+        aria-label="上一条动态"
+      >
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+      </button>
+      
+      <button
+        type="button"
+        className="apple-floating-control absolute right-6 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-slate-800 opacity-0 group-hover:opacity-100"
+        onClick={() => changeSlide(1)}
+        aria-label="下一条动态"
+      >
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+      </button>
+
+      {/* 图片过渡动效 */}
+      <div
+        key={activeKey}
+        className={`apple-media transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${imageTransitionClass}`}
+      >
+        <button 
+          type="button" 
+          className="block w-full text-left" 
+          onClick={() => setIsLightboxOpen(true)} 
+          aria-label={`查看 ${activeItem.title} 大图`}
+        >
+          <Image
+            src={activeItem.image}
+            alt={activeItem.title}
+            width={activeItem.width}
+            height={activeItem.height}
+            className="h-auto w-full rounded-none transition-transform duration-1000"
+            sizes="(max-width: 1024px) 100vw, 960px"
+          />
+        </button>
+      </div>
+    </div>
+
+    {/* 3. 文本内容区：拉开呼吸感，优化字体层级 */}
+    <div
+      key={`${activeKey}-content`}
+      className={`px-6 py-8 transition-all duration-700 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)] md:px-10 ${contentTransitionClass}`}
+    >
+      <div className="apple-progress-track mb-6 h-[3px] rounded-full">
+        <div className="apple-progress-bar" style={{ "--progress-width": progressWidth } as CSSProperties} />
+      </div>
+
+      {/* 苹果风极简标签 (替代原本的深色 Amber 色块) */}
+      <div className="mb-4 inline-flex items-center rounded-full bg-slate-100/85 px-3 py-1 text-[13px] font-semibold tracking-wide text-slate-600 ring-1 ring-inset ring-slate-200/60 backdrop-blur-md">
+        {activeItem.date}
+      </div>
+      
+      {/* 紧凑的新闻标题 */}
+      <h3 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+        {activeItem.title}
+      </h3>
+      
+      {/* 宽松的新闻摘要 */}
+      <p className="mt-4 text-[18px] leading-relaxed text-slate-500 max-w-3xl">
+        {activeItem.description}
+      </p>
+    </div>
+  </div>
+
+      {isMounted && isLightboxOpen
+        ? createPortal(
+            <div className="fixed inset-0 z-[70] bg-black/80 p-4 backdrop-blur-md" onClick={() => setIsLightboxOpen(false)}>
+              <div className="relative flex h-full w-full items-center justify-center" onClick={(event) => event.stopPropagation()}>
+                <button
+                  type="button"
+                  className="apple-floating-control absolute right-2 top-2 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full text-2xl text-white md:right-6 md:top-6"
+                  onClick={() => setIsLightboxOpen(false)}
+                  aria-label="关闭大图"
+                >
+                  ×
+                </button>
+                {items.length > 1 ? (
+                  <>
+                    <button
+                      type="button"
+                      className="apple-floating-control absolute left-2 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-2xl text-white md:left-6"
+                      onClick={() => changeSlide(-1)}
+                      aria-label="上一张动态图片"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      type="button"
+                      className="apple-floating-control absolute right-2 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-2xl text-white md:right-6"
+                      onClick={() => changeSlide(1)}
+                      aria-label="下一张动态图片"
+                    >
+                      ›
+                    </button>
+                  </>
+                ) : null}
+                <div className="max-h-[88vh] w-full max-w-6xl overflow-hidden rounded-[2rem] bg-black/15 p-3 shadow-2xl">
                   <Image
+                    key={`${activeKey}-lightbox`}
                     src={activeItem.image}
                     alt={activeItem.title}
                     width={activeItem.width}
                     height={activeItem.height}
-                    className="h-auto w-full rounded-xl transition hover:brightness-[0.98]"
-                    sizes="(max-width: 1024px) 100vw, 960px"
+                    className="mx-auto max-h-[78vh] h-auto w-auto max-w-full rounded-xl"
+                    sizes="100vw"
+                    priority
                   />
-                </button>
+                  <div className="apple-overlay-card mt-3 rounded-[1.5rem] px-5 py-4 text-white">
+                    <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">{activeItem.date}</div>
+                    <h3 className="mt-1 text-lg font-semibold leading-8">{activeItem.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-white/85">{activeItem.description}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div
-              key={`${activeKey}-content`}
-              className={`p-5 transition-all duration-300 ease-out ${
-                isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              }`}
-            >
-              <div className="mb-3 inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">{activeItem.date}</div>
-              <h3 className="text-xl font-bold leading-8 text-wikiText">{activeItem.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-700">{activeItem.description}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {isLightboxOpen ? (
-        <div className="fixed inset-0 z-[70] bg-black/80 p-4 backdrop-blur-sm" onClick={() => setIsLightboxOpen(false)}>
-          <div className="relative flex h-full w-full items-center justify-center" onClick={(event) => event.stopPropagation()}>
-            <button
-              type="button"
-              className="absolute right-2 top-2 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/55 text-2xl text-white transition hover:bg-black/75 md:right-6 md:top-6"
-              onClick={() => setIsLightboxOpen(false)}
-              aria-label="关闭大图"
-            >
-              ×
-            </button>
-            {items.length > 1 ? (
-              <>
-                <button
-                  type="button"
-                  className="absolute left-2 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-2xl text-white transition hover:bg-black/75 md:left-6"
-                  onClick={() => changeSlide(-1)}
-                  aria-label="上一张动态图片"
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  className="absolute right-2 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-2xl text-white transition hover:bg-black/75 md:right-6"
-                  onClick={() => changeSlide(1)}
-                  aria-label="下一张动态图片"
-                >
-                  ›
-                </button>
-              </>
-            ) : null}
-            <div className="max-h-[88vh] w-full max-w-6xl overflow-hidden rounded-2xl bg-black/20 p-3 shadow-2xl">
-              <Image
-                key={`${activeKey}-lightbox`}
-                src={activeItem.image}
-                alt={activeItem.title}
-                width={activeItem.width}
-                height={activeItem.height}
-                className="mx-auto max-h-[78vh] h-auto w-auto max-w-full rounded-xl"
-                sizes="100vw"
-                priority
-              />
-              <div className="mt-3 rounded-xl bg-black/40 px-4 py-3 text-white">
-                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">{activeItem.date}</div>
-                <h3 className="mt-1 text-lg font-semibold leading-8">{activeItem.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-white/85">{activeItem.description}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
+            </div>,
+            document.body
+          )
+        : null}
     </section>
   );
 }

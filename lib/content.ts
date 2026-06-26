@@ -109,14 +109,17 @@ export type ProjectItem = {
   sponsor: string;
   period: string;
   summary: string;
+  image?: string;
 };
 
 export type CommunityMember = {
   name: string;
   degree: string;
+  image?: string;
   direction?: string;
   destination?: string;
   note?: string;
+  avatar?: string; 
 };
 
 export type CommunityContent = {
@@ -146,7 +149,11 @@ function getImageFilePath(publicPath: string) {
   return path.join(process.cwd(), "public", publicPath.replace(/^\/+/, "").replaceAll("/", path.sep));
 }
 
-function withAssetBasePath(publicPath: string) {
+function withAssetBasePath(publicPath?: string | null) {
+  if (!publicPath) {
+    return "";
+  }
+
   if (!assetBasePath) {
     return publicPath;
   }
@@ -331,9 +338,22 @@ export function getNewsItems() {
 }
 
 export function getProjectItems() {
-  return readCollectionFile<ProjectItem>("projects.yml", "items");
+  return readCollectionFile<ProjectItem>("projects.yml", "items").map((item) => ({
+    ...item,
+    image: item.image ? withAssetBasePath(item.image) : item.image
+  }));
 }
 
 export function getCommunityContent() {
-  return readYamlFile<CommunityContent>("community.yml");
+  const rawData = readYamlFile<CommunityContent>("community.yml");
+  return {
+    students: rawData.students.map((student) => ({
+      ...student,
+      image: student.image ? withAssetBasePath(student.image) : ""
+    })),
+    alumni: rawData.alumni.map((alumnus) => ({
+      ...alumnus,
+      image: alumnus.image ? withAssetBasePath(alumnus.image) : ""
+    })),
+  };
 }
