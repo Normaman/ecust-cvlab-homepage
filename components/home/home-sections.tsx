@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { SectionReveal } from "@/components/section-reveal";
 import type {
@@ -46,17 +47,19 @@ export function HeroSection({ site }: HeroSectionProps) {
     >
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionReveal id="about" variant="text" className="flex flex-col items-center text-center scroll-mt-36" distance={16} blur={10} scale={0.992}>
-          <div className="reveal-stagger reveal-stagger-text max-w-4xl space-y-6">
-            <h1 className="apple-title-gradient text-5xl font-semibold leading-[1.04] tracking-tight sm:text-6xl lg:text-[4.8rem]">
-              {site.title}
+        <div id="about" className="flex flex-col items-center text-center scroll-mt-36">
+          <div className="max-w-4xl space-y-6">
+            <h1 className="hero-focus-title inline text-5xl font-semibold leading-[1.04] tracking-tight sm:text-6xl lg:text-[4.8rem]">
+              <span className="apple-title-gradient apple-title-shimmer inline">
+                {site.title}
+              </span>
             </h1>
-            <p className="mx-auto max-w-2xl text-[1.12rem] font-medium leading-relaxed text-slate-500 sm:text-[1.2rem]">
+            <p className="hero-intro-copy mx-auto max-w-2xl text-[1.12rem] font-medium leading-relaxed text-slate-500 sm:text-[1.2rem]">
               {site.about}
             </p>
           </div>
 
-          <div className="reveal-stagger reveal-stagger-text mt-10 flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <div className="hero-intro-actions mt-10 flex flex-col items-center justify-center gap-6 sm:flex-row">
             <a
               href="#join"
               className="apple-panel rounded-full bg-slate-900 px-8 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-slate-900/18 transition-all hover:-translate-y-0.5 hover:bg-slate-800"
@@ -74,23 +77,43 @@ export function HeroSection({ site }: HeroSectionProps) {
             </a>
           </div>
 
-          <div className="reveal-stagger reveal-stagger-cards mt-16 grid w-full gap-6 md:grid-cols-3 lg:mt-20">
-            {site.stats.map((stat) => (
-              <article
-                key={stat.label}
-                className="apple-glass-card apple-panel group relative overflow-hidden rounded-[2.75rem] p-10 text-left transition-all duration-500 hover:-translate-y-1.5 hover:bg-white/90 hover:shadow-[0_28px_70px_rgba(15,23,42,0.12)]"
-              >
-                <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/95 to-transparent opacity-80"></div>
-                <div className="mb-3 text-[4rem] font-light tracking-tighter text-slate-900 transition-transform duration-500 group-hover:origin-bottom-left">
-                  {stat.value}
+          <div
+            className="hero-intro-stats hero-wallet-stack mt-16 w-full lg:mt-20"
+            style={{ "--stack-count": `${site.stats.length}` } as CSSProperties}
+          >
+            {site.stats.map((stat, index) => {
+              const centeredIndex = index - (site.stats.length - 1) / 2;
+              const collapsedShift = centeredIndex * -68;
+              const collapsedLift = Math.abs(centeredIndex) * 10;
+              const rotation = centeredIndex * 2.6;
+
+              return (
+                <div
+                  key={stat.label}
+                  style={
+                    {
+                      "--hero-card-delay": `${500 + index * 100}ms`,
+                      "--stack-index": `${index}`,
+                      "--stack-collapsed-shift": `${collapsedShift}%`,
+                      "--stack-collapsed-lift": `${collapsedLift}px`,
+                      "--stack-rotation": `${rotation}deg`,
+                      zIndex: `${site.stats.length - index}`
+                    } as CSSProperties
+                  }
+                  className="hero-intro-stat-shell"
+                >
+                  <article className="hero-wallet-card apple-panel group relative overflow-hidden rounded-[2.25rem] p-8 text-left transition-all duration-500">
+                    <div className="mb-3 text-[4rem] font-light tracking-tighter text-slate-900 transition-transform duration-500 group-hover:origin-bottom-left">
+                      {stat.value}
+                    </div>
+                    <h2 className="text-[17px] font-semibold tracking-wide text-slate-800">{stat.label}</h2>
+                    <p className="hero-wallet-detail mt-3 text-[14px] leading-relaxed text-slate-500">{stat.detail}</p>
+                  </article>
                 </div>
-                <h2 className="text-[17px] font-semibold tracking-wide text-slate-800">{stat.label}</h2>
-                <p className="mt-3 text-[14px] leading-relaxed text-slate-500">{stat.detail}</p>
-                <div className="pointer-events-none absolute -bottom-16 -right-16 h-48 w-48 rounded-full bg-blue-100/60 blur-[42px] transition-transform duration-700 group-hover:scale-150"></div>
-              </article>
-            ))}
+              );
+            })}
           </div>
-        </SectionReveal>
+        </div>
       </div>
 
     </header>

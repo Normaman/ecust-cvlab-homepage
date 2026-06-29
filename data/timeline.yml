@@ -1,9 +1,33 @@
 items:
   - year: 2026
-    description: 团队日常。
+    description: 26届毕业合照
     image: /images/timeline/合照2026.jpg
     alt: 团队最新合影
     layout: landscape
+
+  - year: 2026
+    description: 组会合影
+    image: /images/timeline/26组会.jpg
+    alt: 组会合影
+    layout: portrait
+    
+  - year: 2026
+    description: 26届博士毕业答辩顺利结束
+    image: /images/timeline/26博士毕业答辩.jpg
+    alt: 博士毕业答辩
+    layout: portrait
+
+  - year: 2026
+    description: 博士毕业答辩小组合影
+    image: /images/timeline/26博士毕业答辩小组.jpg
+    alt: 博士毕业答辩小组合影
+    layout: portrait
+
+  - year: 2026
+    description: 答辩演练
+    image: /images/timeline/答辩演练.jpg
+    alt: 答辩演练
+    layout: portrait
 
   - year: 2023
     description: 团队建设初期的合影时刻，大家在还略显青涩的阶段，一起把实验室的日常慢慢变成真正的归属感。

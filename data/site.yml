@@ -12,6 +12,9 @@ stats:
   - value: 10+
     label: 科研项目
     detail: 含军工项目、企业合作项目及国家级项目 8 项
+  - value: 6
+    label: 发明专利
+    detail: 先后申请发明专利 25 项，其中授权 6 项
   - value: 1
     label: 省部级奖项
     detail: 获省部级二等奖，持续推进科研成果转化与应用

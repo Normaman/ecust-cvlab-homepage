@@ -1,42 +1,67 @@
 students:
   - name: 高嘉晖
     degree: 博士研究生
-    direction: AIGC 检测与模型泛化
+    direction: AIGC及检测
     
     
   - name: 奚俊炜
     degree: 博士研究生
-    direction: AIGC 检测与模型泛化
+    direction: AIGC及检测
 
   - name: 陈旭
     degree: 博士研究生
-    direction: AIGC 检测与模型泛化
+    direction: AIGC及检测
 
   - name: 黎宇航
     degree: 博士研究生
-    direction: 三维视觉
+    direction: 神经渲染三维重建
 
   - name: 梁磊
     degree: 博士研究生
-    direction: 图像复原与低光增强
+    direction: 图像复原/增强
     image: /images/student/lianglei.jpg
 
+
+  - name: 冯浩源
+    degree: 博士研究生
+    direction: 3D场景理解
+
   - name: 高佳丹
-    degree: 硕士研究生
-    direction: 图像恢复
+    degree: 硕士三年级
+    direction: 雨雾图像复原
 
   - name: 徐佳骏
-    degree: 硕士研究生
+    degree: 硕士三年级
     direction: 数据集蒸馏
-  - name: 徐浩博
-    degree: 硕士研究生
+
+  - name: 徐昊博
+    degree: 硕士二年级
     direction: 数据集蒸馏
+    image: /images/student/xuhaobo.jpg
+
+  - name: 姚扬鑫
+    degree: 硕士二年级
+    direction: 具身智能
+    
   - name: 刘斌
-    degree: 硕士研究生
+    degree: 硕士二年级
     direction: 三维视觉
+    image: /images/student/liubin.jpg
+
+  - name: 叶海涛
+    degree: 硕士二年级
+    direction: 图像增强
+    image: /images/student/yehaitao.jpg
+
+  - name: 方洋洋
+    degree: 硕士二年级
+    direction: 目标检测
+
   - name: 刘洋
-    degree: 硕士研究生
+    degree: 硕士二年级
     direction: 鱼眼目标检测
+    image: /images/student/liuyang.jpg
+  
 
 
 alumni:

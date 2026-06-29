@@ -89,12 +89,12 @@ export default function HomePage() {
                     团队氛围
                   </h2>
                   <a
-                    href="https://example.com/album"
+                    href="https://mejistus.github.io/gallery/"
                     target="_blank"
                     rel="noreferrer"
                     className="apple-panel inline-flex items-center gap-2 rounded-full bg-white/82 px-4 py-2 text-[13px] font-semibold text-slate-600 ring-1 ring-slate-900/5 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white hover:text-slate-900"
                   >
-                    查看更多相册
+                    查看更多瞬间
                     <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M7 17L17 7M9 7h8v8" />
                     </svg>

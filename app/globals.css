@@ -77,6 +77,55 @@ html {
   }
 }
 
+@keyframes hero-focus-sharpen {
+  0% {
+    opacity: 0;
+    filter: blur(24px);
+    transform: translate3d(0, 18px, 0) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hero-rise-in {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(0, 18px, 0) scale(0.992);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hero-fade-in {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .animate-gradient-bg {
   /* 将背景图放大到 200%，以便有足够的空间进行移动 */
   background-size: 200% 200%;
@@ -205,10 +254,137 @@ body {
 }
 
 .apple-title-gradient {
-  background: linear-gradient(180deg, #0f172a 0%, #1e293b 48%, #475569 100%);
+  background: linear-gradient(135deg, #1e293b 0%, #1e293b 36%, #3b82f6 50%, #1e293b 64%, #1e293b 100%);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
   color: transparent;
+}
+
+.apple-title-shimmer {
+  background-size: 200% auto;
+  animation: text-shimmer 6s ease-in-out infinite;
+}
+
+.hero-focus-title {
+  opacity: 0;
+  filter: blur(24px);
+  will-change: opacity, transform, filter;
+  animation: hero-focus-sharpen 1200ms var(--motion-ease-apple) 40ms both;
+}
+
+.hero-intro-subtitle,
+.hero-intro-copy,
+.hero-intro-actions {
+  opacity: 0;
+  filter: blur(10px);
+  will-change: opacity, transform, filter;
+  animation: hero-rise-in 900ms var(--motion-ease-apple) both;
+}
+
+.hero-intro-subtitle {
+  animation-delay: 300ms;
+}
+
+.hero-intro-copy {
+  animation-delay: 380ms;
+}
+
+.hero-intro-actions {
+  animation-delay: 440ms;
+}
+
+.hero-intro-stat-shell {
+  opacity: 0;
+  filter: blur(10px);
+  will-change: opacity, filter;
+  animation: hero-fade-in 900ms var(--motion-ease-apple) both;
+  animation-delay: var(--hero-card-delay, 500ms);
+}
+
+.hero-wallet-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.hero-wallet-card {
+  position: relative;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.9));
+  box-shadow:
+    0 14px 34px rgba(15, 23, 42, 0.06),
+    0 2px 10px rgba(15, 23, 42, 0.04);
+}
+
+.hero-wallet-detail {
+  opacity: 1;
+  transform: none;
+  max-height: 7rem;
+  transition:
+    opacity 420ms var(--motion-ease-apple),
+    transform 560ms var(--motion-ease-apple),
+    max-height 560ms var(--motion-ease-apple);
+}
+
+@media (min-width: 768px) {
+  .hero-wallet-stack {
+    display: grid;
+    grid-template-columns: repeat(var(--stack-count, 3), minmax(0, 1fr));
+    gap: 0;
+    align-items: start;
+    padding-inline: 0.5rem;
+  }
+
+  .hero-intro-stat-shell {
+    min-width: 0;
+    transform:
+      translate3d(var(--stack-collapsed-shift, 0%), var(--stack-collapsed-lift, 0px), 0)
+      rotate(var(--stack-rotation, 0deg))
+      scale(0.988);
+    transform-origin: center bottom;
+    transition:
+      transform 760ms var(--motion-ease-apple),
+      z-index 1ms linear;
+  }
+
+  .hero-wallet-stack:hover .hero-intro-stat-shell,
+  .hero-wallet-stack:focus-within .hero-intro-stat-shell {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+
+  .hero-wallet-stack:hover .hero-intro-stat-shell:hover,
+  .hero-wallet-stack:focus-within .hero-intro-stat-shell:hover {
+    transform: translate3d(0, -10px, 0) rotate(0deg) scale(1.012);
+  }
+
+  .hero-wallet-detail {
+    opacity: 0;
+    transform: translateY(10px);
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  .hero-wallet-stack:hover .hero-wallet-card,
+  .hero-wallet-stack:focus-within .hero-wallet-card {
+    box-shadow:
+      0 18px 42px rgba(15, 23, 42, 0.08),
+      0 4px 14px rgba(15, 23, 42, 0.05);
+  }
+
+  .hero-wallet-stack:hover .hero-intro-stat-shell:hover .hero-wallet-card,
+  .hero-wallet-stack:focus-within .hero-intro-stat-shell:hover .hero-wallet-card {
+    box-shadow:
+      0 28px 56px rgba(15, 23, 42, 0.12),
+      0 8px 20px rgba(15, 23, 42, 0.06);
+  }
+
+  .hero-wallet-stack:hover .hero-wallet-detail,
+  .hero-wallet-stack:focus-within .hero-wallet-detail {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 7rem;
+  }
 }
 
 .apple-nav-link {
@@ -605,6 +781,12 @@ body {
   .apple-ambient-stage::before,
   .apple-ambient-orb,
   .apple-ambient-wash,
+  .apple-title-shimmer,
+  .hero-focus-title,
+  .hero-intro-subtitle,
+  .hero-intro-copy,
+  .hero-intro-actions,
+  .hero-intro-stats > *,
   .reveal-section,
   .reveal-stagger > *,
   .apple-panel,
