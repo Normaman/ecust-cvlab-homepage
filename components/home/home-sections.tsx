@@ -67,10 +67,10 @@ export function HeroSection({ site }: HeroSectionProps) {
               联系与招生
             </a>
             <a
-              href="#gallery"
+              href="#publications"
               className="group flex items-center gap-2 text-[15px] font-semibold text-blue-600 transition-colors hover:text-blue-700"
             >
-              浏览团队氛围相册
+              查看团队代表成果
               <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
               </svg>
